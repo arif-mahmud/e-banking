@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
+		<property name="username" value="bjitacademy" />
+		<property name="password" value="bjitacademy" />
+	</bean>
+	<bean id="Authdao" class="my.project.ebanking.dao.JdbcAuthDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="loginFrm" class="my.project.ebanking.actions.LoginAction" >
+		<property name="userAccountDao" ref="Authdao" />
+	</bean>
+
+	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" >
+   	<property name="dataSource" ref="dataSource" />
+   	<property name="mappingLocations">
+   		<list>
+   			<value>classpath*:/my/project/ebanking/dao/BankAccount.hbm.xml</value>
+				<value>classpath*:/my/project/ebanking/dao/UserAccount.hbm.xml</value>
+				<value>classpath*:/my/project/ebanking/dao/LedgerAccount.hbm.xml</value>
+				<value>classpath*:/my/project/ebanking/dao/Beneficiary.hbm.xml</value>
+   		</list>
+   	</property>
+   	<property name="hibernateProperties">
+   		<props>
+		    <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+   			<prop key="hibernate.show_sql">true</prop>
+   		</props>
+   	</property>
+   </bean>
+	<bean id="bankAccountDao"
+		class="my.project.ebanking.dao.BankAccountHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory"></constructor-arg>
+	</bean>
+	<bean id="bankAccountService"
+		class="my.project.ebanking.services.BankAccountService">
+		<property name="dao" ref="bankAccountDao"/>
+		<property name="ledgerDao" ref="ledgerAccountDao"/>
+	</bean>
+	<bean name="SaveBankAccount" class="my.project.ebanking.actions.SaveBankAccountAction" scope="prototype">
+		<property name="service" ref="bankAccountService"/>	
+	</bean>
+	<bean name="searchAccount" class="my.project.ebanking.actions.BankAccountListAction" scope="prototype" >
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+	<bean name="searchAccountlist" class="my.project.ebanking.actions.BankAccountListAction" scope="prototype" >
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+	<bean name="searchInactiveAccountList" class="my.project.ebanking.actions.BankAccountListAction" scope="prototype" >
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+	<bean name="searchInactiveAccount" class="my.project.ebanking.actions.BankAccountListAction" scope="prototype" >
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+	
+	<bean name="ModifyAccount" class="my.project.ebanking.actions.ModifyAccountAction" scope="prototype">
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+	
+	<bean name="ApproveAccount" class="my.project.ebanking.actions.ModifyAccountAction">
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+	
+	<bean name="SaveModifyAccount" class="my.project.ebanking.actions.ModifyAccountAction" scope="prototype">
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+	<bean name="DeleteAccount" class="my.project.ebanking.actions.DeleteAccountAction" scope="prototype">
+		<property name="service" ref="bankAccountService"/>
+	</bean>
+		
+	<bean id="ledgerAccountDao"
+		class="my.project.ebanking.dao.LedgerAccountHibernateDao">
+	   <constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	
+	<bean id="ledgerAccountService"
+		class="my.project.ebanking.services.LedgerAccountService">
+		<property name="ledgerDao" ref="ledgerAccountDao"/>
+		<property name="accountDao" ref="bankAccountDao"/>			
+	</bean>		
+	
+	<bean name="SaveDeposit"
+		class="my.project.ebanking.actions.DepositAccountConfirmAction" scope="prototype">
+		<property name="ledgerService" ref="ledgerAccountService" />		
+	</bean>
+	
+	<bean name="ConfirmWithdraw"
+		class="my.project.ebanking.actions.WithdrawAccountConfirmAction" scope="prototype">
+		<property name="ledgerService" ref="ledgerAccountService" />		
+	</bean>
+	
+	<bean name="ViewAcSummary"
+		class="my.project.ebanking.actions.AccountSummaryAction">
+		<property name="service" ref="bankAccountService" />		
+	</bean>
+	<bean name="LedgerAccount"
+		class="my.project.ebanking.actions.LedgerAccountAction">
+		<property name="ledgerService" ref="ledgerAccountService" />
+		<property name="service" ref="bankAccountService" />		
+	</bean>
+	
+	
+	<bean id="beneficiaryDao"
+		class="my.project.ebanking.dao.BeneficiaryHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory"/>
+	</bean>
+	<bean id="beneficiaryService"
+		class="my.project.ebanking.services.BeneficiaryService">
+		<property name="dao" ref="beneficiaryDao"/>		
+	</bean>	
+	
+	<bean name="ConfirmAddBeneficiary"
+		class="my.project.ebanking.actions.BeneficiaryAddConfAction">
+		<property name="service" ref="beneficiaryService" />		
+	</bean>
+	<bean name="BeneficiaryList" class="my.project.ebanking.actions.BeneficiaryListAction">
+		<property name="service" ref="beneficiaryService" />		
+	</bean>
+	<bean name="BalTransferSing" class="my.project.ebanking.actions.BalanceTransfarAction">
+		<property name="service" ref="beneficiaryService" />		
+	</bean>
+	<bean name="ConbBalanceTranf" class="my.project.ebanking.actions.BalanceTransfarAction">
+		<property name="service" ref="beneficiaryService" />		
+	</bean>
+	<bean name="BalanceTranfConf" class="my.project.ebanking.actions.BalanceTransfarAction">
+		<property name="service" ref="beneficiaryService" />		
+	</bean>
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+</beans>

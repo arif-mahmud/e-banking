@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="authLayout" template="/template/authLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header_logo" value="/template/HeaderLogo.jsp" />
+		<put-attribute name="header_auth_menu" value="" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="content" value="/template/body.jsp" />
+		<put-attribute name="footer" value="/template/footer.jsp" />
+	</definition>
+	<definition name="loginLayout" template="/template/loginLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/template/header.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/template/footer.jsp" />
+	</definition>
+	<definition name="login" extends="loginLayout">
+		<put-attribute name="title" value="Loin" />
+		<put-attribute name="content" value="/pages/login.jsp" />
+	</definition>
+	<definition name="AdminLayout" extends="authLayout">
+		<put-attribute name="title" value="Admin Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AdminMenu.jsp" />
+		<put-attribute name="content" value="/pages/AdminHome.jsp" />
+	</definition>
+	<definition name="SearchAccount" extends="authLayout">
+		<put-attribute name="title" value="Admin Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AdminMenu.jsp" />
+		<put-attribute name="content" value="/pages/AccountList.jsp" />
+	</definition>
+	<definition name="SearchAccountList" extends="authLayout">
+		<put-attribute name="title" value="Admin Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AdminMenu.jsp" />
+		<put-attribute name="content" value="/pages/SearchAccountList.jsp" />
+	</definition>
+	<definition name="InactiveAccountListPage" extends="authLayout">
+		<put-attribute name="title" value="Admin Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AdminMenu.jsp" />
+		<put-attribute name="content" value="/pages/SearchInactiveAccountList.jsp" />
+	</definition>
+	
+	
+	<definition name="SearchInactiveAccount" extends="authLayout">
+		<put-attribute name="title" value="Admin Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AdminMenu.jsp" />
+		<put-attribute name="content" value="/pages/InactiveAccountList.jsp" />
+	</definition>
+	<definition name="DepositAmount" extends="AdminLayout">
+		<put-attribute name="content" value="/pages/DepositAmount.jsp" />
+	</definition>
+	<definition name="ContinueDeposit" extends="AdminLayout">
+		<put-attribute name="content" value="/pages/ContinueDeposit.jsp" />
+	</definition>
+	<definition name="DepositSuccess" extends="AdminLayout">
+		<put-attribute name="content" value="/pages/DepositAmountSuccess.jsp" />
+	</definition>
+	<definition name="WithdrawAmount" extends="AdminLayout">
+		<put-attribute name="content" value="/pages/WithdrawAmount.jsp" />
+	</definition>
+	<definition name="ContinueWithdraw" extends="AdminLayout">
+		<put-attribute name="content" value="/pages/ContinueWithdraw.jsp" />
+	</definition>
+	<definition name="WithdrawSuccess" extends="AdminLayout">
+		<put-attribute name="content" value="/pages/WithdrawAmountSuccess.jsp" />
+	</definition>
+	<definition name="ModifyAccount" extends="authLayout">
+		<put-attribute name="title" value="Admin Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AdminMenu.jsp" />
+		<put-attribute name="content" value="/pages/ModifyAccount.jsp" />
+	</definition>
+
+	<definition name="GoToApproveAccountPage" extends="authLayout">
+		<put-attribute name="title" value="Admin Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AdminMenu.jsp" />
+		<put-attribute name="content" value="/pages/ApproveAccountPage.jsp" />
+	</definition>
+
+	<definition name="AccountHolderHome" extends="authLayout">
+		<put-attribute name="title" value="User Portal" />
+		<put-attribute name="header_auth_menu" value="/template/HeaderAuthMenu.jsp" />
+		<put-attribute name="menu" value="/template/AccountHolderMenu.jsp" />
+		<put-attribute name="content" value="/pages/AdminHome.jsp" />
+	</definition>
+
+	<definition name="CreateAccount" extends="loginLayout">
+		<put-attribute name="title" value="New Account Registration" />
+		<put-attribute name="content" value="/pages/CreateAccount.jsp" />
+	</definition>
+	
+	<definition name="CreateAccountSuccessPage" extends="loginLayout">
+		<put-attribute name="title" value="Account Registration Success" />
+		<put-attribute name="content" value="/pages/CreateAccountSuccess.jsp" />
+	</definition>
+
+
+	<definition name="ContinueAcCreation" extends="loginLayout">
+		<put-attribute name="title" value="Create Account" />
+		<put-attribute name="content" value="/pages/ConfBankAccount.jsp"></put-attribute>
+	</definition>
+	<definition name="ViewAcSummary" extends="AccountHolderHome">
+		<put-attribute name="title" value="View Acccount Summary" />
+		<put-attribute name="content" value="/pages/AccountSummery.jsp" />
+	</definition>
+	<definition name="LedgerAccount" extends="AccountHolderHome">
+		<put-attribute name="title" value="Ledger Account" />
+		<put-attribute name="content" value="/pages/LedgerAccount.jsp" />
+	</definition>
+	<definition name="AddBeneficiary" extends="AccountHolderHome">
+		<put-attribute name="content" value="/pages/AddBeneficiary.jsp" />
+	</definition>
+	<definition name="ContinueBeneficiary" extends="AccountHolderHome">
+		<put-attribute name="content" value="/pages/ContinueBeneficiary.jsp" />
+	</definition>
+	<definition name="SuccessAddBeneficiary" extends="AccountHolderHome">
+		<put-attribute name="content" value="/pages/SuccessAddBeneficiary.jsp" />
+	</definition>
+	<definition name="BeneficiaryList" extends="AccountHolderHome">
+		<put-attribute name="content" value="/pages/BeneficiaryList.jsp" />
+	</definition>
+	<definition name="BalTransferSing" extends="AccountHolderHome">
+		<put-attribute name="content" value="/pages/BalanceTransfar.jsp" />
+	</definition>
+	<definition name="ConbBalanceTranf" extends="AccountHolderHome">
+		<put-attribute name="content" value="/pages/ConbBalanceTranf.jsp" />
+	</definition>
+	<definition name="BalanceTranfConf" extends="AccountHolderHome">
+		<put-attribute name="content" value="/pages/BalanceTransferSuccess.jsp" />
+		<put-attribute name="input" value="/pages/BalanceTransfar.jsp" />
+	</definition>
+</tiles-definitions>
+
+

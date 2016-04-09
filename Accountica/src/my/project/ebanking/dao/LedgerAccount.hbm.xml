@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+<hibernate-mapping package="my.project.ebanking.domains" default-lazy="false">
+	<class name="LedgerAccount" table="LedgerAccount" dynamic-insert="true" dynamic-update="true">
+		<id name="ledgerId" type="integer" column="ledgerId">
+			<generator class="sequence">
+			<param name="sequence">SQ_ledgerId</param>
+		</generator>						
+		</id>
+		<property name="bankAccNumber" column="bankAccNumber" type="integer" />
+		<property name="ledgerDate" column="transactionDate" type="date" />
+		<property name="refInfo" column="refInfo" type="string" />	
+		<property name="description" column="description" type="string" />	
+		<property name="depositAmount" column="depositAmount" type="java.math.BigDecimal" />	
+		<property name="withdrawAmount" column="withdrawAmount" type="java.math.BigDecimal" />	
+	</class>
+</hibernate-mapping>        

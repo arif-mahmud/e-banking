@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+/* header logo */
+.logo {
+	color: #fff;
+	font-size: 25px;
+	font-weight: bold;
+	width: 100px;
+}
+
+/* form style */
+.form-horizontal .input-group{
+	margin-bottom: 10px;
+}
+
+.form-horizontal td label{
+	color: #333;
+}
+.form-horizontal td input,.form-horizontal td select{
+	margin-bottom: 10px;
+}
+
+.f_legend {
+    border-bottom: 1px solid #dcdcdc;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+/* Form CSS */
+.errorMessage{
+	color:red;
+}
+
+/* Footer */
+.footer_container{
+	background: none repeat scroll 0 0 #cfcfcf;
+	border-radius: 0;
+	bottom: 0;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1)inset;
+	left: 0;
+	margin: 0 auto 0 0;
+	padding: 12px 0;
+	position: fixed;
+	text-align: center;
+	width: 100%;
+}

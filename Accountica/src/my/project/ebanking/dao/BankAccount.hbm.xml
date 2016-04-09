@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="my.project.ebanking.domains"
+	default-lazy="false">
+	<class name="BankAccount" table="BankAccount" dynamic-update="true">
+		<id name="BankAccNumber" type="integer" column="bankAccNumber"
+			unsaved-value="null">
+			<generator class="sequence">
+				<param name="sequence">SQ_BANKACCNUMBER</param>
+			</generator>
+		</id>
+		<property name="bankAccountType" column="accountType" type="integer" />
+		<property name="accountHolderName" column="accountHolderName"
+			type="string" />
+		<property name="fatherName" column="fatherName" type="string" />
+		<property name="motherName" column="motherName" type="string" />
+		<property name="permanentAddress" column="PermanentAddress"
+			type="string" />
+		<property name="currentAddress" column="presentAddress" type="string" />
+		<property name="contactNumber" column="ContactNumber" type="string" />
+		<property name="nid_pn" column="NID_PN" type="string" />
+		<property name="emailAddress" column="EmailAddress" type="string" />
+		<property name="occupation" column="occupation" type="string" />
+		<property name="balance" type="java.math.BigDecimal" column="Balance" />
+		<property name="yearlyIncome" column="YearlyIncome" type="integer" />
+		<property name="currency" column="Currency" type="string" />
+		<property name="accountUserImageFileName" column="accountUserImageFileName"
+			type="string" />
+		<property name="nomineeName" column="nomineeName" type="string" />
+		<property name="nomineeAddress" column="nomineeAddress"
+			type="string" />
+		<property name="nomineeProfession" column="Profession"
+			type="string" />
+		<property name="nomineeRelation" column="nomineerelation"
+			type="string" />
+		<property name="nomineenid_pn" column="NID" type="string" />
+		<property name="activeStatus" column="activeStatus" type="string" />
+		<one-to-one name="userAccount" class="UserAccount" cascade="save-update" />
+	</class>
+</hibernate-mapping>

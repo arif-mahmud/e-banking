@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.custom.i18n.resources" value="my.project.ebanking.resources.global" />
+	<constant name="struts.multipart.saveDir" value="F:/MyUploadedImage" />
+	<package name="user" namespace="/" extends="struts-default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		<interceptors>
+			<interceptor name="authentication"
+				class="my.project.ebanking.actions.AuthenticationInterceptor" />
+			<interceptor-stack name="authStack">
+				<interceptor-ref name="authentication"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<action name="login">
+			<interceptor-ref name="defaultStack" />
+			<result type="tiles">login</result>
+		</action>
+		<action name="loginFrm" class="loginFrm">
+			<interceptor-ref name="defaultStack" />
+			<result name="AccountHolderHome" type="redirect">AccountHolder/home.action
+			</result>
+			<result name="AdminHome" type="redirect">admin/home.action</result>
+			<result name="input" type="tiles">login</result>
+		</action>
+
+		<action name="createAccount" class="my.project.ebanking.actions.BankAccountAction">
+			<result name="success" type="tiles">CreateAccount</result>
+		</action>
+		<action name="File">
+			<result>/pages/SingleUpload.jsp</result>
+		</action>
+		<action name="SingleFileUpload" class="my.project.ebanking.actions.SingleFileUpload"
+			method="upload">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">1000000</param>
+				<param name="allowedTypes"> image/gif,image/jpeg,image/png
+				</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result name="input">/pages/SingleUpload.jsp</result>
+			<result>/pages/SingleUploaded.jsp</result>
+		</action>
+		<action name="ContinueAccountCreation"
+			class="my.project.ebanking.actions.ContinueBankAccountAction">
+			<result name="success" type="tiles">ContinueAcCreation</result>
+			<result name="input" type="tiles">CreateAccount</result>
+		</action>
+		<action name="SaveBankAccount1" class="SaveAccount">
+		</action>
+		<action name="SaveBankAccount" class="SaveBankAccount">
+			<interceptor-ref name="defaultStack" />
+			<result name="success" type="tiles">CreateAccountSuccessPage</result>
+			<result name="input">/pages/CreateAccount.jsp</result>
+		</action>
+	</package>
+	<package name="admin" namespace="/admin" extends="struts-default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+
+		<interceptors>
+			<interceptor name="authentication"
+				class="my.project.ebanking.actions.AuthenticationInterceptor" />
+			<interceptor-stack name="authStack">
+				<interceptor-ref name="authentication"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="authStack" />
+
+		<global-results>
+			<result name="login" type="redirect">/login.action</result>
+		</global-results>
+
+		<action name="login">
+			<interceptor-ref name="defaultStack" />
+			<result>/pages/Login.jsp</result>
+		</action>
+		<action name="Logout" class="loginFrm" method="Logout">
+			<interceptor-ref name="defaultStack" />
+			<result name="success" type="redirect">/login.action</result>
+		</action>
+
+		<action name="loginFrm" class="loginFrm">
+			<interceptor-ref name="defaultStack" />
+			<result name="AdminHome" type="redirect">admin/home.action</result>
+			<result name="input">/pages/login.jsp</result>
+		</action>
+		<action name="home">
+			<interceptor-ref name="authStack" />
+			<result type="tiles" name="AdminHome">AdminLayout</result>
+		</action>
+		<action name="SearchAccount"  class="searchAccount" method="getActiveAccountlistlist"  >
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">SearchAccount</result>
+		</action>
+		
+		<action name="SearchAccountList"  class="searchAccountlist" method="searchActiveAccountlistPage"  >
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">SearchAccountList</result>
+		</action>
+		
+		<action name="SearchInactiveAccountList"  class="searchInactiveAccountList" method="searchInactiveAccountlistPage"  >
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">InactiveAccountListPage</result>
+		</action>
+
+		<action name="SearchInactiveAccount"  class="searchInactiveAccount" method="getInactiveAccountlist"  >
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">SearchInactiveAccount</result>
+		</action>
+		
+		<action name="ModifyAccount" class="ModifyAccount" method="modify">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">ModifyAccount</result>
+		</action>
+		
+		<action name="SaveModifyAccount" class="SaveModifyAccount">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="redirect">SearchAccount</result>
+		</action>
+		
+		<action name="GoToApproveAccountPage" class="ModifyAccount" method="modify">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">GoToApproveAccountPage</result>
+		</action>
+		
+		<action name="ApproveAccount" class="SaveModifyAccount">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="redirect">SearchInactiveAccountList</result>
+		</action>
+	
+		<action name="DeleteAccount" class="DeleteAccount">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="redirect">SearchAccount</result>
+		</action>
+		
+		<action name="DeleteAccountRequestAccount" class="DeleteAccount">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="redirect">SearchInactiveAccountList</result>
+		</action>
+
+		<action name="Deposit">
+			<interceptor-ref name="authStack" />
+			<result type="tiles">DepositAmount</result>
+		</action>
+
+		<action name="ContinueDeposit"
+			class="my.project.ebanking.actions.DepositAccountAction">
+			<interceptor-ref name="authStack" />
+			<result type="tiles" name="success">ContinueDeposit</result>
+			<result type="tiles" name="input">DepositAmount</result>
+		</action>
+
+		<action name="SaveDeposit" class="SaveDeposit">
+			<interceptor-ref name="authStack" />
+			<result type="tiles" name="success">DepositSuccess</result>
+			<result type="tiles" name="failure">DepositAmount</result>
+		</action>
+
+		<action name="Withdraw">
+			<interceptor-ref name="authStack" />
+			<result type="tiles">WithdrawAmount</result>
+		</action>
+
+		<action name="continueWithdraw"
+			class="my.project.ebanking.actions.WithdrawAccountAction">
+			<interceptor-ref name="authStack" />
+			<result type="tiles" name="success">ContinueWithdraw</result>
+			<result type="tiles" name="input">WithdrawAmount</result>
+		</action>
+
+		<action name="ConfirmWithdraw" class="ConfirmWithdraw">
+			<interceptor-ref name="authStack" />
+			<result type="tiles" name="success">WithdrawSuccess</result>
+			<result type="tiles" name="failure">WithdrawAmount</result>
+		</action>
+	</package>
+
+
+	<package name="AccountHolder" namespace="/AccountHolder"
+		extends="struts-default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+
+		<interceptors>
+			<interceptor name="authentication"
+				class="my.project.ebanking.actions.AuthenticationInterceptor" />
+			<interceptor-stack name="authStack">
+				<interceptor-ref name="authentication"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="authStack" />
+
+		<global-results>
+			<result name="login" type="redirect">/login.action</result>
+		</global-results>
+
+		<action name="login">
+			<interceptor-ref name="defaultStack" />
+			<result>/pages/Login.jsp</result>
+		</action>
+		<action name="Logout" class="loginFrm" method="Logout">
+			<interceptor-ref name="defaultStack" />
+			<result name="success" type="redirect">/login.action</result>
+		</action>
+
+		<action name="loginFrm" class="loginFrm">
+			<interceptor-ref name="defaultStack" />
+			<result name="AccountHolderHome" type="redirect">AccountHolder/home.action
+			</result>
+			<result name="input">/pages/login.jsp</result>
+		</action>
+		<action name="home">
+			<interceptor-ref name="authStack" />
+			<result type="tiles" name="AccountHolderHome">AccountHolderHome</result>
+		</action>
+		<action name="ViewAcSummary" class="ViewAcSummary">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">ViewAcSummary</result>
+		</action>
+		<action name="LedgerAccount" class="LedgerAccount">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="tiles">LedgerAccount</result>
+		</action>
+		<action name="AddBeneficiary">
+			<result type="tiles">AddBeneficiary</result>
+		</action>
+		<action name="ContinueBeneficiary"
+			class="my.project.ebanking.actions.BeneficiaryAddAction">
+			<result name="success" type="tiles">ContinueBeneficiary</result>
+			<result name="input" type="tiles">AddBeneficiary</result>
+		</action>
+		<action name="ConfBeneficiary" class="ConfirmAddBeneficiary">
+			<result name="success" type="tiles">SuccessAddBeneficiary</result>
+			<result name="input" type="tiles">AddBeneficiary</result>
+		</action>
+		<action name="BeneficiaryList" class="BeneficiaryList">
+			<result name="success" type="tiles">BeneficiaryList</result>
+		</action>
+		<action name="BalTransferSing" class="BalTransferSing">
+			<result name="success" type="tiles">BalTransferSing</result>
+		</action>
+		<action name="ConbBalanceTranf" class="ConbBalanceTranf"
+			method="continuebalancetransfar">
+			<result name="success" type="tiles">ConbBalanceTranf</result>
+		</action>
+		<action name="BalanceTranfConf" class="BalanceTranfConf"
+			method="BalanceTranfConf">
+			<result name="success" type="tiles">BalanceTranfConf</result>
+		</action>
+	</package>
+</struts>

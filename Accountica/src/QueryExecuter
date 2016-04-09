@@ -1,0 +1,1 @@
+select nvl(sum(ledgeracco0_.depositAmount),0) as col_0_0_, nvl(sum(ledgeracco0_.withdrawAmount),0) as col_1_0_ from LedgerAccount ledgeracco0_ where ledgeracco0_.bankAccNumber=10125;
